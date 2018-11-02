@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "morefood2:cocoa_bean_roasted"
+        },
+        {
+            "item": "morefood2:cocoa_bean_roasted"
+        },
+        {
+            "item": "morefood2:cocoa_bean_roasted"
+        },
+        {
+            "item": "morefood2:cocoa_bean_roasted"
+        }
+    ],
+    "result": {
+        "item": "morefood2:cocoa_bean_ground",
+        "count": 4
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "AAA",
+        "BCB",
+        "AAA"
+    ],
+    "key": {
+        "A": {
+            "item": "morefood2:cocoa_bean_ground"
+        },
+        "B": {
+            "item": "minecraft:sugar"
+        },
+        "C": {
+            "item": "minecraft:milk_bucket"
+        }
+    },
+    "result": {
+        "item": "morefood2:chocolate"
+    }
+}
