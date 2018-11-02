@@ -5,7 +5,7 @@
         "description": "Bringing the next logical step from vanilla food. More food-items and a new crop on top.",
         "version": "${version}",
         "mcversion": "${mcversion}",
-        "url": "https://minecraft.curseforge.com/projects/morefood2/",
+        "url": "https://minecraft.curseforge.com/projects/morefood2",
         "updateUrl": "",
         "authorList": [
             "Stefan Wimmer <info@stefanwimmer128.eu>"
