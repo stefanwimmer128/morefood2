@@ -24,8 +24,10 @@ open class CommonProxy {
         
         MoreFood2.instance.blocks.populate<BlockRegistry> {}
         MoreFood2.instance.items.populate<ItemRegistry> {
+            add("bread_dough")
             add("cocoa_bean_roasted")
             add("cocoa_bean_ground")
+            add("flour")
         }
         MoreFood2.instance.itemFoods.populate<ItemFoodRegistry> {
             add("chocolate", 8)
@@ -33,7 +35,10 @@ open class CommonProxy {
     }
     
     open fun init(e: FMLInitializationEvent) {
-        GameRegistry.addSmelting(ItemStack(Items.DYE, 1, 3), ItemStack(MoreFood2.instance.items["cocoa_bean_roasted"]!!, 1), .8f)
+        val items = MoreFood2.instance.items
+        
+        GameRegistry.addSmelting(ItemStack(Items.DYE, 1, 3), ItemStack(items["cocoa_bean_roasted"]!!), .8f)
+        GameRegistry.addSmelting(items["bread_dough"]!!, ItemStack(Items.BREAD), .8f)
     }
     
     open fun postInit(e: FMLPostInitializationEvent) {}
