@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:bread"
+        }
+    ],
+    "result": {
+        "item": "morefood2:bread_slice",
+        "count": 2
+    }
+}

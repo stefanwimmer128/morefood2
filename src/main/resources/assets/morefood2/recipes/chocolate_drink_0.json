@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "morefood2:milk_bottle"
+        },
+        {
+            "item": "morefood2:cocoa_bean_ground"
+        },
+        {
+            "item": "morefood2:cocoa_bean_ground"
+        },
+        {
+            "item": "minecraft:sugar"
+        },
+        {
+            "item": "minecraft:sugar"
+        }
+    ],
+    "result": {
+        "item": "morefood2:chocolate_drink"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "morefood2:chocolate"
+        }
+    ],
+    "result": {
+        "item": "morefood2:chocolate_piece",
+        "count": 8
+    }
+}

@@ -2,23 +2,19 @@
     "type": "minecraft:crafting_shapeless",
     "ingredients": [
         {
-            "item": "morefood2:flour"
+            "item": "minecraft:porkchop"
+        },
+        {
+            "item": "minecraft:egg"
         },
         {
             "item": "morefood2:flour"
         },
         {
             "item": "morefood2:flour"
-        },
-        {
-            "item": "morefood2:flour"
-        },
-        {
-            "item": "minecraft:water_bucket"
         }
     ],
     "result": {
-        "item": "morefood2:bread_dough",
-        "count": 2
+        "item": "morefood2:schnitzel_raw"
     }
 }

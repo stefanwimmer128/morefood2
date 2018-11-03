@@ -1,0 +1,11 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "morefood2:strawberry"
+        }
+    ],
+    "result": {
+        "item": "morefood2:strawberry_seed"
+    }
+}

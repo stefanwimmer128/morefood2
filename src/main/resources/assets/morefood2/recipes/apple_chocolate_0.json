@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:apple"
+        },
+        {
+            "item": "morefood2:chocolate_piece"
+        }
+    ],
+    "result": {
+        "item": "morefood2:apple_chocolate"
+    }
+}

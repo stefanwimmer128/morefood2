@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "morefood2:ice_cream_cone"
+        },
+        {
+            "item": "morefood2:milk_bottle"
+        },
+        {
+            "item": "morefood2:strawberry"
+        },
+        {
+            "item": "minecraft:sugar"
+        }
+    ],
+    "result": {
+        "item": "morefood2:ice_cream_strawberry"
+    }
+}
