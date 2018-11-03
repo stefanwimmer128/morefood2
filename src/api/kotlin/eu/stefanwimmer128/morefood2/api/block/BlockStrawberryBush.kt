@@ -17,7 +17,7 @@ open class BlockStrawberryBush(resourceDomain: String? = null, name: String? = n
             registryName = if (resourceDomain != null) ResourceLocation(resourceDomain, name) else ResourceLocation(name)
         }
     }
-
+    
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB =
         arrayListOf(
             AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.0625, 1.0),

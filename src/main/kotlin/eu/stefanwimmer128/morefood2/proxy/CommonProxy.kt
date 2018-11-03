@@ -85,7 +85,7 @@ open class CommonProxy {
                     throw NullPointerException("Item $key could not be found")
             }
         
-        MinecraftForge.addGrassSeed(ItemStack(items("strawberry")), 8)
+        MinecraftForge.addGrassSeed(ItemStack(items("strawberry_seed")), 8)
         
         GameRegistry.addSmelting(items("apple_chocolate"), ItemStack(items("apple_chocolate_coated")), 0.8f)
         GameRegistry.addSmelting(items("apple_sugar"), ItemStack(items("apple_glaceed")), 0.8f)
