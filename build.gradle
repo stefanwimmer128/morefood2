@@ -114,6 +114,7 @@ task apiJar(type: Jar) {
 }
 
 artifacts {
+    archives shadowJar
     archives apiJar
 }
 
