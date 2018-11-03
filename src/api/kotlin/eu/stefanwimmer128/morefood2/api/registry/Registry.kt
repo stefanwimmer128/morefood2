@@ -14,11 +14,8 @@ open class Registry<T: IForgeRegistryEntry<T>>(val resourceDomain: String, regis
         baseInitializer(entry, entry)
     }
     
-    @Throws(TypeCastException::class)
-    inline fun <reified I: Registry<T>>populate(populator: I.(registry: I) -> Unit) {
-        if (this !is I)
-            throw TypeCastException("${this::class.simpleName} could not be cast to ${I::class.simpleName}")
-        populator(this, this)
+    inline fun <reified I: Registry<T>>inject(injector: I.(registry: I) -> Unit) {
+        injector(this as I, this)
     }
     
     open fun registerEntries(registry: IForgeRegistry<T>) {
@@ -37,7 +34,7 @@ open class Registry<T: IForgeRegistryEntry<T>>(val resourceDomain: String, regis
         this.values.forEach {
             when (it) {
                 is ICustomModelRegistration ->
-                    it.registerModel(::setCustomModelResourceLocation)
+                    it.registerModel(::setCustomModelResourceLocation, resourceDomain)
                 is Item ->
                     setCustomModelResourceLocation(it, 0, it.registryName!!.resourcePath, "inventory")
                 is Block ->

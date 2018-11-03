@@ -1,7 +1,6 @@
 package eu.stefanwimmer128.morefood2.api
 
 import eu.stefanwimmer128.morefood2.api.registry.BlockRegistry
-import eu.stefanwimmer128.morefood2.api.registry.ItemFoodRegistry
 import eu.stefanwimmer128.morefood2.api.registry.ItemRegistry
 import org.apache.logging.log4j.Logger
 
@@ -20,5 +19,4 @@ interface MoreFood2API {
     
     val blocks: BlockRegistry
     val items: ItemRegistry
-    val itemFoods: ItemFoodRegistry
 }

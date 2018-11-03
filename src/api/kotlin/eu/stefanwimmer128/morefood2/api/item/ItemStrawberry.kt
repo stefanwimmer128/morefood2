@@ -6,12 +6,10 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 
-open class ItemStrawberry(amount: Int, saturation: Float = 0.6f, isWolfFood: Boolean = false, name: String? = null, resourceDomain: String? = null): ItemFood(amount, saturation, isWolfFood) {
+open class ItemStrawberry(amount: Int = 2, saturation: Float = 0.6f, isWolfFood: Boolean = false, name: String = "strawberry", resourceDomain: String? = null): ItemFood(amount, saturation, isWolfFood) {
     init {
-        if (name != null) {
-            unlocalizedName = name
-            registryName = if (resourceDomain != null) ResourceLocation(resourceDomain, name) else ResourceLocation(name)
-        }
+        unlocalizedName = name
+        registryName = if (resourceDomain != null) ResourceLocation(resourceDomain, name) else ResourceLocation(name)
         
         setAlwaysEdible()
     }

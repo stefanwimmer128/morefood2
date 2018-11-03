@@ -10,12 +10,10 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 
-open class BlockStrawberryBush(resourceDomain: String? = null, name: String? = null): BlockCrops(), ICustomModelRegistration {
+open class BlockStrawberryBush(name: String = "strawberry_bush", resourceDomain: String? = null): BlockCrops(), ICustomModelRegistration {
     init {
-        if (name != null) {
-            unlocalizedName = name
-            registryName = if (resourceDomain != null) ResourceLocation(resourceDomain, name) else ResourceLocation(name)
-        }
+        unlocalizedName = name
+        registryName = if (resourceDomain != null) ResourceLocation(resourceDomain, name) else ResourceLocation(name)
     }
     
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB =
@@ -36,5 +34,5 @@ open class BlockStrawberryBush(resourceDomain: String? = null, name: String? = n
     override fun getSeed() =
         MoreFood2API.instance.items["strawberry_seed"]
     
-    override fun registerModel(setCustomModelResourceLocation: (item: Item, meta: Int, resourcePath: String, variant: String) -> Unit) {}
+    override fun registerModel(setCustomModelResourceLocation: (item: Item, meta: Int, resourcePath: String, variant: String) -> Unit, resourceDomain: String) {}
 }

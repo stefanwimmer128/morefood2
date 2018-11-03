@@ -16,13 +16,11 @@ class RegistryHandler {
     @SubscribeEvent
     fun registerItems(e: RegistryEvent.Register<Item>) {
         MoreFood2.instance.items.registerEntries(e.registry)
-        MoreFood2.instance.itemFoods.registerEntries(e.registry)
     }
     
     @SubscribeEvent
     fun registerModels(e: ModelRegistryEvent) {
         MoreFood2.instance.blocks.registerModels()
         MoreFood2.instance.items.registerModels()
-        MoreFood2.instance.itemFoods.registerModels()
     }
 }
