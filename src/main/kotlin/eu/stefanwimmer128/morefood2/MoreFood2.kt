@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 
-@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME)
+@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME, updateJSON = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/versions.json")
 class MoreFood2: MoreFood2API {
     companion object {
         @Mod.Instance
