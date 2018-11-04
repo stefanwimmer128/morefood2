@@ -8,14 +8,14 @@ import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
 
-open class Registry<T: IForgeRegistryEntry<T>>(val resourceDomain: String, registry: Map<String, T> = mutableMapOf(), val baseInitializer: T.(t: T) -> Unit): MutableMap<String, T> by registry.toMutableMap() {
+open class Registry<T: IForgeRegistryEntry<T>>(val resourceDomain: String, registry: Map<String, T> = mutableMapOf(), val baseInitializer: T.() -> Unit): MutableMap<String, T> by registry.toMutableMap() {
     fun add(entry: T) {
         this[entry.registryName!!.resourcePath] = entry
-        baseInitializer(entry, entry)
+        baseInitializer(entry)
     }
     
-    inline fun <reified I: Registry<T>>inject(injector: I.(registry: I) -> Unit) {
-        injector(this as I, this)
+    inline fun <reified I: Registry<T>>inject(injector: I.() -> Unit) {
+        injector(this as I)
     }
     
     open fun registerEntries(registry: IForgeRegistry<T>) {

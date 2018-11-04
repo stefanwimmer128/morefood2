@@ -1,3 +1,6 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 buildscript {
     repositories {
         mavenCentral()
@@ -107,16 +110,33 @@ reobf {
 }
 tasks.reobfShadowJar.mustRunAfter tasks.shadowJar
 
-task apiJar(type: Jar) {
+task deobfJar(type: ShadowJar) {
     from sourceSets.api.output
+    from sourceSets.main.output
     
-    classifier = "api"
+    configurations = [
+        project.configurations.compile
+    ]
+    
+    classifier = "deobf"
 }
 
 artifacts {
     archives shadowJar
-    archives apiJar
+    archives deobfJar
 }
+
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+    target = tasks.shadowJar
+    prefix = "shadow.morefood2"
+}
+tasks.shadowJar.dependsOn tasks.relocateShadowJar
+
+task relocateDeobfJar(type: ConfigureShadowRelocation) {
+    target = tasks.deobfJar
+    prefix = "shadow.morefood2"
+}
+tasks.deobfJar.dependsOn tasks.relocateDeobfJar
 
 curseforge {
     apiKey = System.getenv().CURSE_API_TOKEN ?: ""
@@ -133,7 +153,7 @@ curseforge {
         mainArtifact shadowJar
         
         addArtifact sourceJar
-        addArtifact apiJar
+        addArtifact deobfJar
         addArtifact jar
     }
 }
