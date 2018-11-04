@@ -6,8 +6,6 @@ import eu.stefanwimmer128.morefood2.api.item.ItemDrink
 import eu.stefanwimmer128.morefood2.api.item.ItemMilkBottle
 import eu.stefanwimmer128.morefood2.api.item.ItemStrawberry
 import eu.stefanwimmer128.morefood2.api.item.ItemStrawberrySeed
-import eu.stefanwimmer128.morefood2.api.registry.BlockRegistry
-import eu.stefanwimmer128.morefood2.api.registry.ItemRegistry
 import eu.stefanwimmer128.morefood2.event.RegistryHandler
 import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
@@ -26,10 +24,10 @@ open class CommonProxy {
     open fun preInit(e: FMLPreInitializationEvent) {
         MinecraftForge.EVENT_BUS.register(RegistryHandler())
         
-        MoreFood2.instance.blocks.inject<BlockRegistry> {
+        MoreFood2.instance.blocks.apply {
             add(BlockStrawberryBush(resourceDomain = resourceDomain))
         }
-        MoreFood2.instance.items.inject<ItemRegistry> {
+        MoreFood2.instance.items.apply {
             add("apple_chocolate")
             add("apple_chocolate_coated", 8)
             add("apple_glaceed", 6)
@@ -68,21 +66,21 @@ open class CommonProxy {
     }
     
     open fun init(e: FMLInitializationEvent) {
-        val items = MoreFood2.instance.items
-        
-        MinecraftForge.addGrassSeed(ItemStack(items["strawberry_seed"]!!), 8)
-        
-        GameRegistry.addSmelting(items["apple_chocolate"], ItemStack(items["apple_chocolate_coated"]!!), 0.8f)
-        GameRegistry.addSmelting(items["apple_sugar"], ItemStack(items["apple_glaceed"]!!), 0.8f)
-        GameRegistry.addSmelting(items["bread_dough"], ItemStack(Items.BREAD), 0.8f)
-        GameRegistry.addSmelting(ItemStack(Items.DYE, 1, 3), ItemStack(items["cocoa_bean_roasted"]!!), 0.8f)
-        GameRegistry.addSmelting(Items.EGG, ItemStack(items["egg_boiled"]!!), 0.8f)
-        GameRegistry.addSmelting(items["fish_stick_raw"], ItemStack(items["fish_stick"]!!), 0.8f)
-        GameRegistry.addSmelting(items["french_fries_raw"], ItemStack(items["french_fries"]!!), 0.8f)
-        GameRegistry.addSmelting(items["ice_cream_cone_dough"], ItemStack(items["ice_cream_cone"]!!), 0.8f)
-        GameRegistry.addSmelting(items["schnitzel_raw"], ItemStack(items["schnitzel"]!!), 0.8f)
-        GameRegistry.addSmelting(items["strawberry_chocolate"], ItemStack(items["strawberry_chocolate_coated"]!!), .6f)
-        GameRegistry.addSmelting(items["strawberry_sugar"], ItemStack(items["strawberry_glaceed"]!!), 0.8f)
+        MoreFood2.instance.items.let { items ->
+            MinecraftForge.addGrassSeed(ItemStack(items["strawberry_seed"]!!), 8)
+            
+            GameRegistry.addSmelting(items["apple_chocolate"], ItemStack(items["apple_chocolate_coated"]!!), 0.8f)
+            GameRegistry.addSmelting(items["apple_sugar"], ItemStack(items["apple_glaceed"]!!), 0.8f)
+            GameRegistry.addSmelting(items["bread_dough"], ItemStack(Items.BREAD), 0.8f)
+            GameRegistry.addSmelting(ItemStack(Items.DYE, 1, 3), ItemStack(items["cocoa_bean_roasted"]!!), 0.8f)
+            GameRegistry.addSmelting(Items.EGG, ItemStack(items["egg_boiled"]!!), 0.8f)
+            GameRegistry.addSmelting(items["fish_stick_raw"], ItemStack(items["fish_stick"]!!), 0.8f)
+            GameRegistry.addSmelting(items["french_fries_raw"], ItemStack(items["french_fries"]!!), 0.8f)
+            GameRegistry.addSmelting(items["ice_cream_cone_dough"], ItemStack(items["ice_cream_cone"]!!), 0.8f)
+            GameRegistry.addSmelting(items["schnitzel_raw"], ItemStack(items["schnitzel"]!!), 0.8f)
+            GameRegistry.addSmelting(items["strawberry_chocolate"], ItemStack(items["strawberry_chocolate_coated"]!!), .6f)
+            GameRegistry.addSmelting(items["strawberry_sugar"], ItemStack(items["strawberry_glaceed"]!!), 0.8f)
+        }
     }
     
     open fun postInit(e: FMLPostInitializationEvent) {}

@@ -14,10 +14,6 @@ open class Registry<T: IForgeRegistryEntry<T>>(val resourceDomain: String, regis
         baseInitializer(entry)
     }
     
-    inline fun <reified I: Registry<T>>inject(injector: I.() -> Unit) {
-        injector(this as I)
-    }
-    
     open fun registerEntries(registry: IForgeRegistry<T>) {
         this.values.forEach {
             @Suppress("UNCHECKED_CAST")
