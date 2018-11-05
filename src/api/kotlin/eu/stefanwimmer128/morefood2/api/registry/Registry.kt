@@ -8,10 +8,11 @@ import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
 
-open class Registry<T: IForgeRegistryEntry<T>>(val resourceDomain: String, registry: Map<String, T> = mutableMapOf(), val baseInitializer: T.() -> Unit): MutableMap<String, T> by registry.toMutableMap() {
-    fun add(entry: T) {
+open class Registry<T: IForgeRegistryEntry<T>>(val resourceDomain: String, registry: Map<String, T> = mutableMapOf()): MutableMap<String, T> by registry.toMutableMap() {
+    fun add(entry: T): T {
         this[entry.registryName!!.resourcePath] = entry
-        baseInitializer(entry)
+        onEntryAdd(entry)
+        return entry
     }
     
     open fun registerEntries(registry: IForgeRegistry<T>) {
@@ -38,4 +39,6 @@ open class Registry<T: IForgeRegistryEntry<T>>(val resourceDomain: String, regis
             }
         }
     }
+    
+    open fun onEntryAdd(entry: T) {}
 }

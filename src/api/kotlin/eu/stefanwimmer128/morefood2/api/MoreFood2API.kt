@@ -2,6 +2,7 @@ package eu.stefanwimmer128.morefood2.api
 
 import eu.stefanwimmer128.morefood2.api.registry.BlockRegistry
 import eu.stefanwimmer128.morefood2.api.registry.ItemRegistry
+import net.minecraftforge.fml.common.ILanguageAdapter
 import org.apache.logging.log4j.Logger
 
 interface MoreFood2API {
@@ -14,6 +15,8 @@ interface MoreFood2API {
             Class.forName("eu.stefanwimmer128.morefood2.MoreFood2").getField("instance").get(null) as MoreFood2API
         }
     }
+    
+    class KotlinLanguageAdapter: ILanguageAdapter.JavaAdapter()
     
     val logger: Logger
     

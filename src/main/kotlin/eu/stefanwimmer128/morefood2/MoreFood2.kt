@@ -4,7 +4,9 @@ import eu.stefanwimmer128.morefood2.api.MoreFood2API
 import eu.stefanwimmer128.morefood2.api.registry.BlockRegistry
 import eu.stefanwimmer128.morefood2.api.registry.ItemRegistry
 import eu.stefanwimmer128.morefood2.proxy.CommonProxy
+import net.minecraft.block.Block
 import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.item.Item
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -12,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import org.apache.logging.log4j.Logger
 
-@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME, updateJSON = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/versions.json")
+@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME, modLanguage = "kotlin", modLanguageAdapter = "eu.stefanwimmer128.morefood2.MoreFood2API.KotlinLanguageAdapter", updateJSON = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/versions.json")
 class MoreFood2: MoreFood2API {
     companion object {
         @Mod.Instance
@@ -24,11 +26,15 @@ class MoreFood2: MoreFood2API {
     
     override lateinit var logger: Logger
     
-    override val blocks = BlockRegistry(MoreFood2API.MODID) {
-        setCreativeTab(CreativeTabs.FOOD)
+    override val blocks = object: BlockRegistry(MoreFood2API.MODID) {
+        override fun onEntryAdd(entry: Block) {
+            entry.setCreativeTab(CreativeTabs.FOOD)
+        }
     }
-    override val items = ItemRegistry(MoreFood2API.MODID) {
-        creativeTab = CreativeTabs.FOOD
+    override val items = object: ItemRegistry(MoreFood2API.MODID) {
+        override fun onEntryAdd(entry: Item) {
+            entry.creativeTab = CreativeTabs.FOOD
+        }
     }
     
     @Mod.EventHandler
