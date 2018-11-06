@@ -9,9 +9,14 @@ interface MoreFood2API {
         const val MODID = "morefood2"
         const val VERSION = "#{VERSION}"
         const val NAME = "MoreFood 2"
-
-        val instance: MoreFood2API by lazy {
-            Class.forName("eu.stefanwimmer128.morefood2.MoreFood2").getField("instance").get(null) as MoreFood2API
+        
+        @JvmStatic
+        val instance: MoreFood2API? by lazy {
+            try {
+                Class.forName("eu.stefanwimmer128.morefood2.MoreFood2").getField("instance").get(null) as MoreFood2API
+            } catch (e: Exception) {
+                null
+            }
         }
     }
     

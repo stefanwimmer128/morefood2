@@ -10,7 +10,8 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 
-open class BlockStrawberryBush(name: String = "strawberry_bush", resourceDomain: String? = null): BlockCrops(), ICustomModelRegistration {
+open class BlockStrawberryBush @JvmOverloads constructor(name: String = "strawberry_bush", resourceDomain: String? = null) : BlockCrops(), ICustomModelRegistration {
+
     init {
         unlocalizedName = name
         registryName = if (resourceDomain != null) ResourceLocation(resourceDomain, name) else ResourceLocation(name)
@@ -29,10 +30,10 @@ open class BlockStrawberryBush(name: String = "strawberry_bush", resourceDomain:
         )[getAge(state)]
     
     override fun getCrop() =
-        MoreFood2API.instance.items["strawberry"]
+        MoreFood2API.instance!!.items["strawberry"]
     
     override fun getSeed() =
-        MoreFood2API.instance.items["strawberry_seed"]
+        MoreFood2API.instance!!.items["strawberry_seed"]
     
     override fun registerModel(setCustomModelResourceLocation: (item: Item, meta: Int, resourcePath: String, variant: String) -> Unit, resourceDomain: String) {}
 }

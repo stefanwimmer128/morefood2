@@ -44,7 +44,17 @@ compileJava {
     sourceCompatibility = targetCompatibility = "1.8"
 }
 
+compileApiJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
 compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+compileApiKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -57,7 +67,6 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "org.jetbrains.kotlin:kotlin-reflect"
 }
 
 minecraft {
@@ -110,6 +119,16 @@ reobf {
 }
 tasks.reobfShadowJar.mustRunAfter tasks.shadowJar
 
+task apiJar(type: ShadowJar) {
+    from sourceSets.api.output
+    
+    configurations = [
+            project.configurations.compile
+    ]
+    
+    classifier = "api"
+}
+
 task deobfJar(type: ShadowJar) {
     from sourceSets.api.output
     from sourceSets.main.output
@@ -123,6 +142,7 @@ task deobfJar(type: ShadowJar) {
 
 artifacts {
     archives shadowJar
+    archives apiJar
     archives deobfJar
 }
 
@@ -131,6 +151,12 @@ task relocateShadowJar(type: ConfigureShadowRelocation) {
     prefix = "shadow.morefood2"
 }
 tasks.shadowJar.dependsOn tasks.relocateShadowJar
+
+task relocateApiJar(type: ConfigureShadowRelocation) {
+    target = tasks.apiJar
+    prefix = "shadow.morefood2"
+}
+tasks.apiJar.dependsOn tasks.relocateApiJar
 
 task relocateDeobfJar(type: ConfigureShadowRelocation) {
     target = tasks.deobfJar
@@ -154,6 +180,7 @@ curseforge {
         
         addArtifact sourceJar
         addArtifact deobfJar
+        addArtifact apiJar
         addArtifact jar
     }
 }

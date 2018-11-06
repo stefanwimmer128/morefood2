@@ -8,7 +8,7 @@ import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.registries.IForgeRegistry
 import net.minecraftforge.registries.IForgeRegistryEntry
 
-open class Registry<T: IForgeRegistryEntry<T>>(val resourceDomain: String, registry: Map<String, T> = mutableMapOf()): MutableMap<String, T> by registry.toMutableMap() {
+open class Registry<T: IForgeRegistryEntry<T>> @JvmOverloads constructor(val resourceDomain: String, registry: Map<String, T> = mutableMapOf()): MutableMap<String, T> by registry.toMutableMap() {
     fun add(entry: T): T {
         this[entry.registryName!!.resourcePath] = entry
         onEntryAdd(entry)

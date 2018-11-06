@@ -5,7 +5,7 @@ import net.minecraft.item.ItemFood
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 
-open class ItemDrink(amount: Int, saturation: Float = 0.6f, isWolfFood: Boolean = false, name: String? = null, resourceDomain: String? = null): ItemFood(amount, saturation, isWolfFood) {
+open class ItemDrink @JvmOverloads constructor(amount: Int, saturation: Float = 0.6f, isWolfFood: Boolean = false, name: String? = null, resourceDomain: String? = null): ItemFood(amount, saturation, isWolfFood) {
     init {
         if (name != null) {
             unlocalizedName = name
