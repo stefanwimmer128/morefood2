@@ -1,5 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -21,9 +22,11 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.3.0"
+    id "org.jetbrains.kotlin.jvm" version "1.3.10"
     id "com.github.johnrengelman.shadow" version "4.0.1"
     id "com.matthewprenger.cursegradle" version "1.1.0"
+    id "com.jfrog.bintray" version "1.8.4"
+    id "maven-publish"
 }
 
 apply plugin: "net.minecraftforge.gradle.forge"
@@ -40,21 +43,11 @@ version = config.version
 
 sourceCompatibility = targetCompatibility = "1.8"
 
-compileJava {
+tasks.withType(JavaCompile) {
     sourceCompatibility = targetCompatibility = "1.8"
 }
 
-compileApiJava {
-    sourceCompatibility = targetCompatibility = "1.8"
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-compileApiKotlin {
+tasks.withType(KotlinCompile) {
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -119,6 +112,18 @@ reobf {
 }
 tasks.reobfShadowJar.mustRunAfter tasks.shadowJar
 
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+    target = tasks.shadowJar
+    prefix = "shadow.morefood2"
+}
+tasks.shadowJar.dependsOn tasks.relocateShadowJar
+
+task apiThinJar(type: Jar) {
+    from sourceSets.api.output
+    
+    classifier = "api-thin"
+}
+
 task apiJar(type: ShadowJar) {
     from sourceSets.api.output
     
@@ -127,6 +132,19 @@ task apiJar(type: ShadowJar) {
     ]
     
     classifier = "api"
+}
+
+task relocateApiJar(type: ConfigureShadowRelocation) {
+    target = tasks.apiJar
+    prefix = "shadow.morefood2"
+}
+tasks.apiJar.dependsOn tasks.relocateApiJar
+
+task deobfThinJar(type: Jar) {
+    from sourceSets.api.output
+    from sourceSets.main.output
+    
+    classifier = "deobf-thin"
 }
 
 task deobfJar(type: ShadowJar) {
@@ -140,32 +158,23 @@ task deobfJar(type: ShadowJar) {
     classifier = "deobf"
 }
 
-artifacts {
-    archives shadowJar
-    archives apiJar
-    archives deobfJar
-}
-
-task relocateShadowJar(type: ConfigureShadowRelocation) {
-    target = tasks.shadowJar
-    prefix = "shadow.morefood2"
-}
-tasks.shadowJar.dependsOn tasks.relocateShadowJar
-
-task relocateApiJar(type: ConfigureShadowRelocation) {
-    target = tasks.apiJar
-    prefix = "shadow.morefood2"
-}
-tasks.apiJar.dependsOn tasks.relocateApiJar
-
 task relocateDeobfJar(type: ConfigureShadowRelocation) {
     target = tasks.deobfJar
     prefix = "shadow.morefood2"
 }
 tasks.deobfJar.dependsOn tasks.relocateDeobfJar
 
+artifacts {
+    archives jar
+    archives shadowJar
+    archives apiThinJar
+    archives apiJar
+    archives deobfThinJar
+    archives deobfJar
+}
+
 curseforge {
-    apiKey = System.getenv().CURSE_API_TOKEN ?: ""
+    apiKey = System.getenv("CURSE_API_TOKEN") ?: ""
     
     project {
         id = config.curse
@@ -181,6 +190,62 @@ curseforge {
         addArtifact sourceJar
         addArtifact deobfJar
         addArtifact apiJar
-        addArtifact jar
+    }
+}
+
+bintray {
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_KEY")
+    pkg {
+        repo = "maven"
+        name = config.modid
+        
+        version {
+            name = config.version
+            desc = "Minecraft Forge: ${config.minecraft}-${config.forge}"
+            vcsTag = "v${config.version}"
+        }
+    }
+    override = true
+    publications = [
+        "maven"
+    ]
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = config.modid
+            version = config.version
+            
+            artifact source: jar, classifier: null
+            artifact source: apiThinJar, classifier: "api"
+            artifact source: deobfThinJar, classifier: "deobf"
+            artifact sourceJar
+            
+            pom {
+                name = "MoreFood 2"
+                description = ("Minecraft Forge: ${config.minecraft}-${config.forge}").toString()
+                url = "https://minecraft.curseforge.com/projects/morefood2"
+                licenses {
+                    license {
+                        name = "ISC"
+                        url = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/LICENSE"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "stefanwimmer128"
+                        name = "Stefan Wimmer"
+                        email = "info@stefanwimmer128.eu"
+                    }
+                }
+                scm {
+                    connection = "scm:git:https://github.com/stefanwimmer128/morefood2.git"
+                    developerConnection = "scm:git:git@github.com:stefanwimmer128/morefood2.git"
+                    url = "https://github.com/stefanwimmer128/morefood2"
+                }
+            }
+        }
     }
 }
