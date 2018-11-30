@@ -204,10 +204,6 @@ bintray {
             name = config.version
             desc = "Minecraft Forge: ${config.minecraft}-${config.forge}"
             vcsTag = "v${config.version}"
-            
-            gpg {
-                sign = true
-            }
         }
     }
     publications = [
