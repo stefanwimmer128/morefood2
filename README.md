@@ -8,6 +8,8 @@ Bringing the next logical step from vanilla food. More food-items and a new crop
 // build.gradle
 
 repositories {
+    jcenter()
+    // or
     maven {
         url = "https://dl.bintray.com/stefanwimmer128/maven"
     }
