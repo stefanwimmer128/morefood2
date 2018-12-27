@@ -193,6 +193,12 @@ curseforge {
     }
 }
 
+def publishables = [
+    "jar",
+    "apiThinJar",
+    "deobfThinJar",
+]
+
 bintray {
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_KEY")
@@ -206,47 +212,47 @@ bintray {
             vcsTag = "v${config.version}"
         }
     }
-    publications = [
-        "maven"
-    ]
+    publications = publishables
     override = true
     publish = true
 }
 
 publishing {
     publications {
-        maven(MavenPublication) {
-            artifactId = config.modid
-            version = config.version
-            
-            artifact source: jar, classifier: null
-            artifact source: apiThinJar, classifier: "api"
-            artifact source: deobfThinJar, classifier: "deobf"
-            artifact sourceJar
-            
-            pom {
-                name = "MoreFood 2"
-                description = ("Minecraft Forge: ${config.minecraft}-${config.forge}").toString()
-                url = "https://minecraft.curseforge.com/projects/morefood2"
-                licenses {
-                    license {
-                        name = "ISC"
-                        url = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/LICENSE"
+        for (def publishable in publishables)
+            "$publishable"(MavenPublication) {
+                from components.java
+                
+                artifactId = config.modid + (publishable == "jar" ? "" : "-" + publishable.replace("ThinJar", "")) 
+                version = config.version
+                
+                artifacts = [];
+                artifact source: tasks[publishable], classifier: null
+                artifact sourceJar
+                
+                pom {
+                    name = "MoreFood 2"
+                    description = ("Minecraft Forge: ${config.minecraft}-${config.forge}").toString()
+                    url = "https://minecraft.curseforge.com/projects/morefood2"
+                    licenses {
+                        license {
+                            name = "ISC"
+                            url = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/LICENSE"
+                        }
                     }
-                }
-                developers {
-                    developer {
-                        id = "stefanwimmer128"
-                        name = "Stefan Wimmer"
-                        email = "info@stefanwimmer128.eu"
+                    developers {
+                        developer {
+                            id = "stefanwimmer128"
+                            name = "Stefan Wimmer"
+                            email = "info@stefanwimmer128.eu"
+                        }
                     }
-                }
-                scm {
-                    connection = "scm:git:https://github.com/stefanwimmer128/morefood2.git"
-                    developerConnection = "scm:git:git@github.com:stefanwimmer128/morefood2.git"
-                    url = "https://github.com/stefanwimmer128/morefood2"
+                    scm {
+                        connection = "scm:git:https://github.com/stefanwimmer128/morefood2.git"
+                        developerConnection = "scm:git:git@github.com:stefanwimmer128/morefood2.git"
+                        url = "https://github.com/stefanwimmer128/morefood2"
+                    }
                 }
             }
-        }
     }
 }

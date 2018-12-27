@@ -18,8 +18,8 @@ repositories {
 dependencies {
     deobfCompile "eu.stefanwimmer128.morefood2:morefood2:${version}"
     // or
-    compile "eu.stefanwimmer128.morefood2:morefood2:${version}:deobf"
+    compile "eu.stefanwimmer128.morefood2:morefood2-api:${version}"
     // or
-    compile "eu.stefanwimmer128.morefood2:morefood2:${version}:api"
+    compile "eu.stefanwimmer128.morefood2:morefood2-deobf:${version}"
 } 
 ```
