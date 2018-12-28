@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import org.apache.logging.log4j.Logger
 
-@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME, modLanguage = "kotlin", modLanguageAdapter = "eu.stefanwimmer128.morefood2.api.lang.KotlinLanguageAdapter", updateJSON = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/versions.json")
+@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME, modLanguageAdapter = "eu.stefanwimmer128.morefood2.api.lang.KotlinLanguageAdapter", updateJSON = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/versions.json")
 class MoreFood2: MoreFood2API {
     companion object {
         @Mod.Instance

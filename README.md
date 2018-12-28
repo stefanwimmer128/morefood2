@@ -16,10 +16,10 @@ repositories {
 }
 
 dependencies {
-    deobfCompile "eu.stefanwimmer128.morefood2:morefood2:${version}"
-    // or
     compile "eu.stefanwimmer128.morefood2:morefood2-api:${version}"
     // or
     compile "eu.stefanwimmer128.morefood2:morefood2-deobf:${version}"
+    // or
+    deobfCompile "eu.stefanwimmer128.morefood2:morefood2:${version}"
 } 
 ```

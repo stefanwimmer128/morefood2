@@ -3,7 +3,6 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.matthewprenger.cursegradle.CurseProject
 import net.minecraftforge.gradle.user.IReobfuscator
 import net.minecraftforge.gradle.user.ReobfMappingType
-import net.minecraftforge.gradle.user.ReobfTaskFactory
 import net.minecraftforge.gradle.user.UserBaseExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -40,8 +39,8 @@ buildscript {
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.11"
-    id("com.github.johnrengelman.shadow") version "4.0.1"
-    id("com.matthewprenger.cursegradle") version "1.1.0"
+    id("com.github.johnrengelman.shadow") version "4.0.2"
+    id("com.matthewprenger.cursegradle") version "1.1.2"
     id("com.jfrog.bintray") version "1.8.4"
     id("maven-publish")
 }
@@ -51,10 +50,12 @@ apply(plugin = "net.minecraftforge.gradle.forge")
 group = "eu.stefanwimmer128.morefood2"
 version = Config.version
 
-base.archivesBaseName = "${Config.modid}_${Config.minecraft}"
-
 repositories {
     jcenter()
+    
+    maven {
+        setUrl("http://dvs1.progwml6.com/files/maven")
+    }
 }
 
 dependencies {
@@ -122,24 +123,22 @@ tasks {
         classifier = "thin"
     }
     
+    getByName<Jar>("sourceJar") {
+        from(sourceSets["api"].allSource)
+    }
+    
     val shadowJar = getByName<ShadowJar>("shadowJar") {
         from(sourceSets["api"].output)
         classifier = ""
     }
     
-    getByName<Jar>("sourceJar") {
-        from(sourceSets["api"].allSource)
+    val relocateShadowJar = create<ConfigureShadowRelocation>("relocateShadowJar") {
+        target = shadowJar
     }
+    shadowJar.dependsOn(relocateShadowJar)
     
     getByName("reobfShadowJar") {
         mustRunAfter(shadowJar)
-    }
-    
-    create<ConfigureShadowRelocation>("relocateShadowJar") {
-        target = shadowJar
-        prefix = "shadow.morefood2"
-        
-        dependsOn(shadowJar)
     }
     
     create<Jar>("apiThinJar") {
@@ -154,12 +153,10 @@ tasks {
         classifier = "api"
     }
     
-    create<ConfigureShadowRelocation>("relocateApiJar") {
+    val relocateApiJar = create<ConfigureShadowRelocation>("relocateApiJar") {
         target = apiJar
-        prefix = "shadow.morefood2"
-        
-        dependsOn(apiJar)
     }
+    apiJar.dependsOn(relocateApiJar)
     
     create<Jar>("deobfThinJar") {
         from(sourceSets["api"].output)
@@ -175,11 +172,17 @@ tasks {
         classifier = "deobf"
     }
     
-    create<ConfigureShadowRelocation>("relocateDeobfJar") {
+    val relocateDeobfJar = create<ConfigureShadowRelocation>("relocateDeobfJar") {
         target = deobfJar
-        prefix = "shadow.morefood2"
-        
-        dependsOn(deobfJar)
+    }
+    deobfJar.dependsOn(relocateDeobfJar)
+    
+    withType<Jar> {
+        baseName = "${Config.modid}_${Config.minecraft}"
+    }
+    
+    withType<ShadowJar> {
+        configurations = listOf(project.configurations.compile)
     }
 }
 
