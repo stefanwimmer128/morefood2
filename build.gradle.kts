@@ -22,7 +22,6 @@ object Config {
 
 buildscript {
     repositories {
-        mavenCentral()
         jcenter()
         
         maven {
@@ -55,7 +54,6 @@ version = Config.version
 base.archivesBaseName = "${Config.modid}_${Config.minecraft}"
 
 repositories {
-    mavenCentral()
     jcenter()
 }
 
@@ -185,6 +183,13 @@ tasks {
     }
 }
 
+artifacts {
+    add("archives", tasks["apiJar"])
+    add("archives", tasks["apiThinJar"])
+    add("archives", tasks["deobfJar"])
+    add("archives", tasks["deobfThinJar"])
+}
+
 curseforge {
     apiKey = System.getenv("CURSE_API_TOKEN") ?: ""
     
@@ -197,13 +202,19 @@ curseforge {
         
         addGameVersion(Config.minecraft)
         
-        mainArtifact(tasks.getByName("jar"))
+        mainArtifact(tasks["jar"])
         
-        addArtifact(tasks.getByName("sourceJar"))
-        addArtifact(tasks.getByName("deobfJar"))
-        addArtifact(tasks.getByName("apiJar"))
+        addArtifact(tasks["sourceJar"])
+        addArtifact(tasks["deobfJar"])
+        addArtifact(tasks["apiJar"])
     })
 }
+
+val PUBLICATIONS = mapOf(
+    "jar" to null,
+    "apiThinJar" to "api",
+    "deobfThinJar" to "deobf"
+)
 
 bintray {
     user = System.getenv("BINTRAY_USER")
@@ -219,7 +230,7 @@ bintray {
         }
     }
     withGroovyBuilder {
-        "publications"(arrayOf("jar", "apiThinJar", "deobfThinJar"))
+        "publications"(PUBLICATIONS.keys.toTypedArray())
     }
     override = true
     publish = true
@@ -227,44 +238,55 @@ bintray {
 
 publishing {
     publications {
-        for (publication in bintray.publications)
-            create<MavenPublication>(publication) {
+        PUBLICATIONS.forEach { source, target ->
+            create<MavenPublication>(source) {
                 from(components["java"])
                 
-                artifactId = Config.modid + (if (publication == "jar") "" else "-" + publication.replace("ThinJar", ""))
+                artifactId = Config.modid + (target?.let { "-$it" } ?: "")
                 version = Config.version
                 
                 artifacts.removeAll(artifacts)
-                artifact(tasks.getByName(publication)) {
+                artifact(tasks[source]) {
                     classifier = null
                 }
-                artifact(tasks.getByName("sourceJar"))
+                artifact(tasks["sourceJar"])
                 
-                pom.withXml {
-                    asNode().apply {
-                        appendNode("name", "MoreFood2")
-                        appendNode("description", "Minecraft Forge: ${Config.minecraft}-${Config.forge}")
-                        appendNode("url", "https://minecraft.curseforge.com/projects/morefood2")
-                        appendNode("licenses").apply {
-                            appendNode("license").apply {
-                                appendNode("name", "ISC")
-                                appendNode("url", "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/LICENSE")
-                            }
+                pom.withGroovyBuilder {
+                    "setName"("MoreFood 2")
+                    "setDescription"("Minecraft Forge: ${Config.minecraft}-${Config.forge}")
+                    "setUrl"("https://minecraft.curseforge.com/projects/morefood2")
+                    "licenses" {
+                        "license" {
+                            "setName"("ISC")
+                            "setUrl"("https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/LICENSE")
+                            "setDistribution"("repo")
                         }
-                        appendNode("developers").apply {
-                            appendNode("developer").apply {
-                                appendNode("id", "stefanwimmer128")
-                                appendNode("name", "Stefan Wimmer")
-                                appendNode("email", "info@stefanwimmer128.eu")
-                            }
+                    }
+                    "developers" {
+                        "developer" {
+                            "setId"("stefanwimmer128")
+                            "setName"("Stefan Wimmer")
+                            "setEmail"("info@stefanwimmer128.eu")
+                            "setUrl"("https://stefanwimmer128.eu")
+                            "setRoles"(setOf("developer"))
                         }
-                        appendNode("scm").apply {
-                            appendNode("connection", "scm:git:https://github.com/stefanwimmer128/morefood2.git")
-                            appendNode("developerConnection", "scm:git:git@github.com:stefanwimmer128/morefood2.git")
-                            appendNode("url", "https://github.com/stefanwimmer128/morefood2")
+                    }
+                    "contributors" {
+                        "contributor" {
+                            "setName"("uriba")
                         }
+                    }
+                    "scm" {
+                        "setConnection"("scm:git:https://github.com/stefanwimmer128/morefood2.git")
+                        "setDeveloperConnection"("scm:git:git@github.com:stefanwimmer128/morefood2.git")
+                        "setUrl"("https://github.com/stefanwimmer128/morefood2")
+                    }
+                    "issueManagement" {
+                        "setSystem"("github")
+                        "setUrl"("https://github.com/stefanwimmer128/morefood2/issues")
                     }
                 }
             }
+        }
     }
 }
