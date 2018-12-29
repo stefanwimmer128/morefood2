@@ -1,5 +1,6 @@
 package eu.stefanwimmer128.morefood2
 
+import eu.stefanwimmer128.kotlin3.api.creativeTab
 import eu.stefanwimmer128.morefood2.api.MoreFood2API
 import eu.stefanwimmer128.morefood2.api.registry.BlockRegistry
 import eu.stefanwimmer128.morefood2.api.registry.ItemRegistry
@@ -14,7 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import org.apache.logging.log4j.Logger
 
-@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME, dependencies = "required-after:kotlin3@[1.0.0,)", modLanguageAdapter = "eu.stefanwimmer128.kotlin3.api.KotlinLanguageAdapter", updateJSON = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/versions.json")
+@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME, dependencies = "required-after:kotlin3@[1.1.0,)", modLanguageAdapter = "eu.stefanwimmer128.kotlin3.api.KotlinLanguageAdapter", updateJSON = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/versions.json")
 object MoreFood2: MoreFood2API {
     @Mod.Instance
     lateinit var instance: MoreFood2
@@ -26,7 +27,7 @@ object MoreFood2: MoreFood2API {
     
     override val blocks = object: BlockRegistry(MoreFood2API.MODID) {
         override fun onEntryAdd(entry: Block) {
-            entry.setCreativeTab(CreativeTabs.FOOD)
+            entry.creativeTab = CreativeTabs.FOOD
         }
     }
     override val items = object: ItemRegistry(MoreFood2API.MODID) {

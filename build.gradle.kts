@@ -58,9 +58,9 @@ repositories {
 }
 
 dependencies {
-    "provided"("eu.stefanwimmer128.kotlin3:kotlin3-api:1.0.0")
+    "provided"("eu.stefanwimmer128.kotlin3:kotlin3-api:1.1.0")
     
-    runtime("eu.stefanwimmer128.kotlin3:kotlin3:1.0.0")
+    runtime("eu.stefanwimmer128.kotlin3:kotlin3:1.1.0")
 }
 
 extensions.getByName<UserBaseExtension>("minecraft").apply {
