@@ -14,15 +14,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import org.apache.logging.log4j.Logger
 
-@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME, modLanguageAdapter = "eu.stefanwimmer128.morefood2.api.lang.KotlinLanguageAdapter", updateJSON = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/versions.json")
-class MoreFood2: MoreFood2API {
-    companion object {
-        @Mod.Instance
-        lateinit var instance: MoreFood2
-        
-        @SidedProxy(serverSide = CommonProxy.SERVER, clientSide = CommonProxy.CLIENT)
-        lateinit var proxy: CommonProxy
-    }
+@Mod(modid = MoreFood2API.MODID, version = MoreFood2API.VERSION, name = MoreFood2API.NAME, dependencies = "required-after:kotlin3@[1.0.0,)", modLanguageAdapter = "eu.stefanwimmer128.kotlin3.api.KotlinLanguageAdapter", updateJSON = "https://raw.githubusercontent.com/stefanwimmer128/morefood2/master/versions.json")
+object MoreFood2: MoreFood2API {
+    @Mod.Instance
+    lateinit var instance: MoreFood2
+    
+    @SidedProxy(serverSide = CommonProxy.SERVER, clientSide = CommonProxy.CLIENT)
+    lateinit var proxy: CommonProxy
     
     override lateinit var logger: Logger
     

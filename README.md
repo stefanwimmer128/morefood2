@@ -4,22 +4,19 @@ Bringing the next logical step from vanilla food. More food-items and a new crop
 
 ## How to use MoreFood 2 in your project?
 
-``` groovy
-// build.gradle
+To use MoreFood 2 in your project add the following code to your `build.gradle`:
 
+``` groovy
 repositories {
-    jcenter()
-    // or
     maven {
         url = "https://dl.bintray.com/stefanwimmer128/maven"
     }
 }
 
 dependencies {
-    compile "eu.stefanwimmer128.morefood2:morefood2-api:${version}"
-    // or
-    compile "eu.stefanwimmer128.morefood2:morefood2-deobf:${version}"
-    // or
-    deobfCompile "eu.stefanwimmer128.morefood2:morefood2:${version}"
+    // compile against MoreFood 2 API
+    provided "eu.stefanwimmer128.morefood2:morefood2-api:${version}"
+    // at runtime include full MoreFood 2 mod
+    runtime "eu.stefanwimmer128.morefood2:morefood2:${version}"
 } 
 ```
